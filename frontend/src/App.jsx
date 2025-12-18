@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Trash2, TrendingDown, Wallet } from 'lucide-react';
+import { Trash2, TrendingDown, Wallet } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-const categories = ['Food', 'Travel', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Others'];
+const categories = ['Food', 'Travel', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Others']
 
 const categoryColors = {
   'Food': 'bg-orange-100 text-orange-700 border-orange-300',
@@ -11,33 +11,33 @@ const categoryColors = {
   'Entertainment': 'bg-purple-100 text-purple-700 border-purple-300',
   'Health': 'bg-green-100 text-green-700 border-green-300',
   'Others': 'bg-gray-100 text-gray-700 border-gray-300'
-};
+}
 
 const defaultExpenses = [
   { id: 1, name: 'Breakfast at cafe', amount: 180, category: 'Food', date: '2025-10-29' },
   { id: 2, title: 'Auto to office', amount: 50, category: 'Travel', date: '2025-10-30' },
   { id: 3, title: 'Netflix subscription', amount: 649, category: 'Entertainment', date: '2025-10-28' }
-];
+]
 
 export default function ExpenseTracker() {
   const [expenses, setExpenses] = useState(() => {
-    const saved = localStorage.getItem('expenses');
-    return saved ? JSON.parse(saved) : defaultExpenses;
-  });
+    const saved = localStorage.getItem('expenses')
+    return saved ? JSON.parse(saved) : defaultExpenses
+  })
   
   useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
+    localStorage.setItem('expenses', JSON.stringify(expenses))
+  }, [expenses])
   
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('Food');
-  const [selectedFilter, setSelectedFilter] = useState('All');
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('Food')
+  const [selectedFilter, setSelectedFilter] = useState('All')
 
   const handleAdd = () => {
     if (!name.trim() || !amount || parseFloat(amount) <= 0) {
-      alert('Please enter valid expense details');
-      return;
+      alert('Please enter valid expense details')
+      return
     }
     
     const newExpense = {
@@ -46,27 +46,27 @@ export default function ExpenseTracker() {
       amount: parseFloat(amount),
       category: category,
       date: new Date().toISOString().split('T')[0]
-    };
+    }
     
-    setExpenses([newExpense, ...expenses]);
-    setName('');
-    setAmount('');
-  };
+    setExpenses([newExpense, ...expenses])
+    setName('')
+    setAmount('')
+  }
 
   const handleDelete = (id) => {
-    setExpenses(expenses.filter(e => e.id !== id));
-  };
+    setExpenses(expenses.filter(e => e.id !== id))
+  }
 
   const filteredList = selectedFilter === 'All' 
     ? expenses 
-    : expenses.filter(e => e.category === selectedFilter);
+    : expenses.filter(e => e.category === selectedFilter)
 
-  const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const total = expenses.reduce((sum, e) => sum + e.amount, 0)
 
-  const categoryTotals = {};
+  const categoryTotals = {}
   expenses.forEach(exp => {
-    categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount;
-  });
+    categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount
+  })
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 pb-20">
@@ -98,7 +98,7 @@ export default function ExpenseTracker() {
               placeholder="What did you buy?"
               value={name}
               onChange={(e) => setName(e.target.value)}
-                              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-400"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:border-emerald-400"
             />
             
             <div className="grid grid-cols-2 gap-3">
@@ -213,5 +213,5 @@ export default function ExpenseTracker() {
         </div>
       </div>
     </div>
-  );
+  )
 }
